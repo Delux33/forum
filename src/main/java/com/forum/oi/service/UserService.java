@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
                     user.getActivationCode()
             );
 
-            mailSenderService.send(user.getEmail(), "Код активации", message);
+            mailSenderService.send(user.getEmail(), "Код активации акка на форуме", message);
         }
 
         return true;
@@ -61,7 +61,10 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-    public void saveUser(User user, String username, Map<String, String> form) {
+    public void saveUser(User user,
+                         String username,
+                         Map<String, String> form) {
+
         user.setUsername(username);
 
         Set<String> roles = Arrays.stream(Role.values())

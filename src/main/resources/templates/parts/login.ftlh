@@ -19,6 +19,12 @@
                     <input type="email" name="email" class="form-control" placeholder="1@2.3" />
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Phone number:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="phoneNumber" class="form-control" placeholder="XXX-XX-XX"/>
+                </div>
+            </div>
         </#if>
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <#if !isRegisterForm><a href="/registration">Add new user</a></#if>

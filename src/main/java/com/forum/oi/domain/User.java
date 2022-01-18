@@ -15,10 +15,15 @@ public class User implements UserDetails {
     private Long id;
 
     private String username;
+
     private String password;
+
     private boolean active;
 
+    private String phoneNumber;
+
     private String email;
+
     private String activationCode;
 
     public boolean isAdmin() {
@@ -113,5 +118,13 @@ public class User implements UserDetails {
 
     public String getActivationCode() {
         return activationCode;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
