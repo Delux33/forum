@@ -13,7 +13,7 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <#if user?? && (currentUserId != -1)>
                 <li class="nav-item">
-                    <a class="nav-link" href="/main">Список тем</a>
+                    <a class="nav-link" href="/topics">Список тем</a>
                 </li>
             </#if>
     </div>

@@ -1,30 +1,31 @@
 package com.forum.oi.domain;
 
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class Message {
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text;
+    private String title;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "message_id")
+    private Message message;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
-    public Message() {
+    public Article() {
     }
 
-    public Message(String text, User user) {
-        this.text = text;
-        this.author = user;
-    }
-
-    public String getAuthorName() {
-        return author != null ? author.getUsername() : "none";
+    public Article(String title, User author, Message message) {
+        this.title = title;
+        this.author = author;
+        this.message = message;
     }
 
     public Long getId() {
@@ -35,12 +36,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTitle(String text) {
+        this.title = text;
     }
 
     public User getAuthor() {

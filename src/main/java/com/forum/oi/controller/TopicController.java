@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Controller
-public class MainController {
+public class TopicController {
     @Autowired
     private MessageRepo messageRepo;
 
@@ -22,17 +22,18 @@ public class MainController {
         return "greeting";
     }
 
-    @GetMapping("/main")
-    public String main(Map<String, Object> model) {
+    @GetMapping("/topics")
+    public String topic(Map<String, Object> model) {
+
         Iterable<Message> messages = messageRepo.findAll();
 
         model.put("messages", messages);
 
-        return "main";
+        return "topic";
     }
 
-    @PostMapping("/main")
-    public String add(@AuthenticationPrincipal User user,
+    @PostMapping("/topics")
+    public String addTopic(@AuthenticationPrincipal User user,
                       @RequestParam String text,
                       Map<String, Object> model) {
 
@@ -44,6 +45,6 @@ public class MainController {
 
         model.put("messages", messages);
 
-        return "main";
+        return "topic";
     }
 }
