@@ -3,6 +3,6 @@
 <#import "parts/showMessagesOrArticles.ftlh" as s>
 
 <@c.page>
-    <@a.add "/topics" true/>
+    <@a.addTitle "/topics" true/>
     <@s.show true/>
 </@c.page>

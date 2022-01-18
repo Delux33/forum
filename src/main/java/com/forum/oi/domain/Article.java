@@ -11,6 +11,8 @@ public class Article {
 
     private String title;
 
+    private String textArticle;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "message_id")
     private Message message;
@@ -20,6 +22,11 @@ public class Article {
     private User author;
 
     public Article() {
+    }
+
+    public Article(User author, String textArticle) {
+        this.author = author;
+        this.textArticle = textArticle;
     }
 
     public Article(String title, User author, Message message) {
@@ -50,5 +57,21 @@ public class Article {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public String getTextArticle() {
+        return textArticle;
+    }
+
+    public void setTextArticle(String textArticle) {
+        this.textArticle = textArticle;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 }

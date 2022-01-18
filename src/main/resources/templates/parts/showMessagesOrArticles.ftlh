@@ -16,11 +16,11 @@
             <#list articlesTitle as article>
                 <div class="bg-light border my-2">
                     <div class="m-2">
-                        <span>${article.title}</span>
+                        <span><a href="/topics/articles/${article.id}">${article.title}</a></span>
                     </div>
                 </div>
             <#else>
-                <div align="center">Статьи отсутствуют</div>
+                <div align="center">Добавь заголовок для своей статьи</div>
             </#list>
         </div>
     </#if>

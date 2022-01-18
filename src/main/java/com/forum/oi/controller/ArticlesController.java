@@ -6,8 +6,10 @@ import com.forum.oi.domain.User;
 import com.forum.oi.repos.ArticleRepo;
 import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -24,8 +26,8 @@ public class ArticlesController {
     private MessageAndArticleService messageAndArticleService;
 
     @GetMapping("{topic}")
-    public String topic(@PathVariable Message topic,
-                        Map<String, Object> model) {
+    public String articles(@PathVariable Message topic,
+                           Map<String, Object> model) {
 
         Iterable<Article> articlesTitle = messageAndArticleService.findAllArticlesForTopic(topic);
 
@@ -36,12 +38,12 @@ public class ArticlesController {
     }
 
     @PostMapping("{topic}")
-    public String addTopic(@RequestParam String title,
-                           @AuthenticationPrincipal User user,
+    public String addTitle(@RequestParam String title,
+                           @AuthenticationPrincipal User author,
                            @PathVariable Message topic,
                            Map<String, Object> model) {
 
-        Article article = new Article(title, user, topic);
+        Article article = new Article(title, author, topic);
 
         articleRepo.save(article);
 
@@ -52,18 +54,45 @@ public class ArticlesController {
         return "redirect:/topics/" + topic.getId();
     }
 
-    @GetMapping("{topic}/{article}")
-    public String article(@PathVariable Message topic,
-                          @PathVariable Long article,
-                          Map<String, Object> model) {
+    @GetMapping("articles/{article}")
+    public String showTextArticle(@PathVariable Article article,
+                                  Map<String, Object> model) {
 
-        Optional<Article> articles = messageAndArticleService.findArticleById(article);
-
-        model.put("articles", articles);
-        model.put("id_message", topic.getId());
-        model.put("id_article", article);
+        model.put("article", article);
 
         return "article";
     }
+
+    @PostMapping("articles/{articleId}")
+    public String addTextArticle(@RequestParam String textArticle,
+                                 @PathVariable Article articleId,
+                                 @AuthenticationPrincipal User author,
+                                 Map<String, Object> model) {
+
+        articleId.setTextArticle(textArticle);
+        articleId.setAuthor(author);
+
+        articleRepo.save(articleId);
+
+        model.put("article", articleId);
+
+        return "article";
+    }
+
+//    @PostMapping("/topics")
+//    public String addTopic(@AuthenticationPrincipal User user,
+//                           @RequestParam String text,
+//                           Map<String, Object> model) {
+//
+//        Message message = new Message(text, user);
+//
+//        messageRepo.save(message);
+//
+//        Iterable<Message> messages = messageRepo.findAll();
+//
+//        model.put("messages", messages);
+//
+//        return "topic";
+//    }
 
 }

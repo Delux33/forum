@@ -1,7 +1,6 @@
 package com.forum.oi.domain;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Message {

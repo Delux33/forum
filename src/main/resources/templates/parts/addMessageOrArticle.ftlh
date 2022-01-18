@@ -1,4 +1,4 @@
-<#macro add path isTopic>
+<#macro addTitle path isTopic>
     <#if !isTopic>
         <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
            aria-controls="collapseExample">
