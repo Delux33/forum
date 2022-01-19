@@ -3,6 +3,13 @@
 <#import "parts/showMessagesOrArticles.ftlh" as s>
 
 <@c.page>
+    <div class="row mb-3">
+        <div class="col">
+            <a href="/topics">Назад</a>
+        </div>
+    </div>
     <@a.addTitle "/topics/${id_message}" false/>
-    <@s.show false/>
+    <@s.show "/topics/${id_message}" false/>
+
+
 </@c.page>

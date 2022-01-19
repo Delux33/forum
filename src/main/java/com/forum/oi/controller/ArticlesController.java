@@ -6,14 +6,11 @@ import com.forum.oi.domain.User;
 import com.forum.oi.repos.ArticleRepo;
 import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/topics")
@@ -54,18 +51,21 @@ public class ArticlesController {
         return "redirect:/topics/" + topic.getId();
     }
 
-    @GetMapping("articles/{article}")
+    @GetMapping("{topic}/{article}")
     public String showTextArticle(@PathVariable Article article,
+                                  @PathVariable Message topic,
                                   Map<String, Object> model) {
 
+        model.put("id_message", topic.getId());
         model.put("article", article);
 
         return "article";
     }
 
-    @PostMapping("articles/{articleId}")
+    @PostMapping("{topic}/{articleId}")
     public String addTextArticle(@RequestParam String textArticle,
                                  @PathVariable Article articleId,
+                                 @PathVariable Message topic,
                                  @AuthenticationPrincipal User author,
                                  Map<String, Object> model) {
 
@@ -74,25 +74,9 @@ public class ArticlesController {
 
         articleRepo.save(articleId);
 
+        model.put("id_message", topic.getId());
         model.put("article", articleId);
 
         return "article";
     }
-
-//    @PostMapping("/topics")
-//    public String addTopic(@AuthenticationPrincipal User user,
-//                           @RequestParam String text,
-//                           Map<String, Object> model) {
-//
-//        Message message = new Message(text, user);
-//
-//        messageRepo.save(message);
-//
-//        Iterable<Message> messages = messageRepo.findAll();
-//
-//        model.put("messages", messages);
-//
-//        return "topic";
-//    }
-
 }

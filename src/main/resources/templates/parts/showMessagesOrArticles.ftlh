@@ -1,10 +1,14 @@
-<#macro show isTopic>
+<#macro show path isTopic>
+    <#include "security.ftlh" />
     <#if isTopic>
         <div class="shadow-lg p-3 mb-5 bg-body rounded mt-3">
             <#list messages as message>
                 <div class="bg-light border my-2">
                     <div class="m-2">
-                        <span><a href="/topics/${message.id}">${message.text}</a></span>
+                        <a href="${path}/${message.id}">${message.text}</a>
+                        <#if message.author.id == currentUserId || isAdmin>
+                            <a href="${path}/edit/${message.id}">Редактировать</a>
+                        </#if>
                     </div>
                 </div>
             <#else>
@@ -16,7 +20,7 @@
             <#list articlesTitle as article>
                 <div class="bg-light border my-2">
                     <div class="m-2">
-                        <span><a href="/topics/articles/${article.id}">${article.title}</a></span>
+                        <a href="${path}/${article.id}">${article.title}</a>
                     </div>
                 </div>
             <#else>

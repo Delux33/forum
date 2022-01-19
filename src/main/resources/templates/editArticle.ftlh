@@ -1,8 +1,8 @@
 <#import "parts/common.ftlh" as c>
-<#import "parts/addMessageOrArticle.ftlh" as a>
 <#import "parts/showMessagesOrArticles.ftlh" as s>
+<#import "parts/editor.ftlh" as e>
 
 <@c.page>
-    <@a.addTitle "/topics" true/>
+    <@e.editor "/topics/edit/${message.id}" true/>
     <@s.show "/topics" true/>
 </@c.page>
