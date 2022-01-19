@@ -10,6 +10,4 @@
     </div>
     <@a.addTitle "/topics/${id_message}" false/>
     <@s.show "/topics/${id_message}" false/>
-
-
 </@c.page>

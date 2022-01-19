@@ -13,7 +13,7 @@ public class Article {
 
     private String textArticle;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "message_id")
     private Message message;
 

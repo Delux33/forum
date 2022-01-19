@@ -1,5 +1,5 @@
-<#include "security.ftlh">
 <#import "login.ftlh" as l>
+<#include "security.ftlh">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <#if !user?? && !(currentUserId != -1)>

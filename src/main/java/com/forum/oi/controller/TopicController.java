@@ -1,9 +1,9 @@
 package com.forum.oi.controller;
 
 import com.forum.oi.domain.Message;
-import com.forum.oi.domain.Role;
 import com.forum.oi.domain.User;
 import com.forum.oi.repos.MessageRepo;
+import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 public class TopicController {
     @Autowired
     private MessageRepo messageRepo;
+
+    @Autowired
+    private MessageAndArticleService messageAndArticleService;
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
@@ -63,14 +65,13 @@ public class TopicController {
         model.put("message", message);
         model.put("isCurrentUser", currentUser.equals(message.getAuthor()));
 
-        return "editArticle";
+        return "editTopic";
     }
 
     @PostMapping("/topics/edit/{messageId}")
     public String saveChangedTopic(@AuthenticationPrincipal User currentUser,
                                    @RequestParam Message message,
-                                   @RequestParam String topic,
-                                   Map<String, Object> model) {
+                                   @RequestParam String topic) {
 
 
         if (message.getAuthor().equals(currentUser) || currentUser.isAdmin()) {
@@ -80,28 +81,14 @@ public class TopicController {
 
             messageRepo.save(message);
         }
-
-        model.put("message", message);
 
         return "redirect:/topics";
     }
 
-    @GetMapping("/topics/delete/{messageId}")
-    public String deleteTopic(@AuthenticationPrincipal User currentUser,
-                                   @RequestParam Message message,
-                                   @RequestParam String topic,
-                                   Map<String, Object> model) {
+    @PostMapping("/topics/delete/{messageId}")
+    public String deleteTopic(@PathVariable Long messageId) {
 
-
-        if (message.getAuthor().equals(currentUser) || currentUser.isAdmin()) {
-            if (StringUtils.hasText(topic)) {
-                message.setText(topic);
-            }
-
-            messageRepo.save(message);
-        }
-
-        model.put("message", message);
+        messageAndArticleService.deleteMessage(messageId);
 
         return "redirect:/topics";
     }

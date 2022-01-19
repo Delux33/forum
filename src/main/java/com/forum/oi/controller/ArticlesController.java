@@ -8,6 +8,7 @@ import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -28,7 +29,7 @@ public class ArticlesController {
 
         Iterable<Article> articlesTitle = messageAndArticleService.findAllArticlesForTopic(topic);
 
-        model.put("articlesTitle", articlesTitle);
+        model.put("articleTitle", articlesTitle);
         model.put("id_message", topic.getId());
 
         return "articleTitle";
@@ -66,11 +67,9 @@ public class ArticlesController {
     public String addTextArticle(@RequestParam String textArticle,
                                  @PathVariable Article articleId,
                                  @PathVariable Message topic,
-                                 @AuthenticationPrincipal User author,
                                  Map<String, Object> model) {
 
         articleId.setTextArticle(textArticle);
-        articleId.setAuthor(author);
 
         articleRepo.save(articleId);
 
@@ -78,5 +77,103 @@ public class ArticlesController {
         model.put("article", articleId);
 
         return "article";
+    }
+
+    @GetMapping("{message}/edit/{article}")
+    public String editArticleTitle(@AuthenticationPrincipal User currentUser,
+                                   @PathVariable Message message,
+                                   @PathVariable Article article,
+                                   Map<String, Object> model) {
+
+        Iterable<Article> articlesTitle = messageAndArticleService.findAllArticlesForTopic(message);
+
+        model.put("articleTitle", articlesTitle);
+        model.put("article", article);
+        model.put("message", message);
+        model.put("isCurrentUser", currentUser.equals(message.getAuthor()));
+
+        return "editArticleTitle";
+    }
+
+    @PostMapping("{message}/edit/{article}")
+    public String saveChangedArticleTitle(@AuthenticationPrincipal User currentUser,
+                                          @RequestParam Article article,
+                                          @RequestParam String title,
+                                          @PathVariable Long message,
+                                          Map<String, Object> model) {
+
+
+        if (article.getAuthor().equals(currentUser) || currentUser.isAdmin()) {
+            if (StringUtils.hasText(title)) {
+                article.setTitle(title);
+            }
+
+            articleRepo.save(article);
+        }
+
+        return "redirect:/topics/" + message;
+    }
+
+    @PostMapping("{message}/delete/{article}")
+    public String deleteArticleTitle(@PathVariable Long message,
+                                     @PathVariable Long article) {
+
+        messageAndArticleService.deleteArticle(article);
+
+        return "redirect:/topics/" + message;
+    }
+
+    @GetMapping("{message}/{article}/article")
+    public String editArticle(@AuthenticationPrincipal User currentUser,
+                              @PathVariable Message message,
+                              @PathVariable Article article,
+                              Map<String, Object> model) {
+
+        model.put("id_message", message.getId());
+        model.put("text", article.getTextArticle());
+        model.put("article", article);
+        model.put("isCurrentUser", currentUser.equals(message.getAuthor()));
+
+        return "editArticle";
+    }
+
+    @PostMapping("{message}/{article}/article")
+    public String saveChangedArticle(@AuthenticationPrincipal User currentUser,
+                                     @RequestParam Long idArticle,
+                                     @RequestParam String textArticle,
+                                     @PathVariable Long message) {
+
+        Article currentArticle = null;
+
+        if (messageAndArticleService.findById(idArticle).isPresent()) {
+            currentArticle = messageAndArticleService.findById(idArticle).get();
+        }
+
+        if (currentArticle != null && (currentArticle.getAuthor().equals(currentUser) || currentUser.isAdmin())) {
+            if (StringUtils.hasText(textArticle)) {
+                currentArticle.setTextArticle(textArticle);
+            }
+
+            articleRepo.save(currentArticle);
+        }
+
+        return "redirect:/topics/" + message + "/" + idArticle;
+    }
+
+    @PostMapping("{message}/{article}/delete")
+    public String deleteArticle(@PathVariable Long message,
+                                @PathVariable Long article) {
+
+        Article currentArticle = null;
+
+        if (messageAndArticleService.findById(article).isPresent()) {
+            currentArticle = messageAndArticleService.findById(article).get();
+        }
+
+        currentArticle.setTextArticle(null);
+
+        articleRepo.save(currentArticle);
+
+        return "redirect:/topics/" + message + "/" + article;
     }
 }

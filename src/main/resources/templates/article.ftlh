@@ -1,10 +1,19 @@
 <#import "parts/common.ftlh" as c>
+<#import "parts/textArticle.ftlh" as t>
+<#include "parts/security.ftlh" />
 
 <@c.page>
     <div class="row mb-3">
         <div class="col">
             <a href="/topics/${id_message}">Назад</a>
         </div>
+        <#if article.textArticle??>
+            <a href="/topics/${id_message}/${article.id}/article">Редактировать</a>
+            <form method="post" action="/topics/${id_message}/${article.id}/delete">
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
+        </#if>
     </div>
     <#if !article.textArticle??>
         <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
@@ -25,14 +34,6 @@
                 </form>
             </div>
         </div>
-        <div class="shadow-lg p-3 mb-5 bg-body rounded mt-3">
     </#if>
-    <#if article.textArticle??>
-        <div class="shadow-lg p-3 mb-5 bg-body rounded mt-3">
-            <div class="m-2">${article.textArticle}</div>
-        </div>
-    <#else>
-        <div align="center">Здесь почему-то пусто, это нужно исправить!</div>
-    </#if>
-    </div>
+    <@t.textArticle />
 </@c.page>
