@@ -7,8 +7,6 @@ import com.forum.oi.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class MessageAndArticleService {
     @Autowired
@@ -29,7 +27,11 @@ public class MessageAndArticleService {
         articleRepo.deleteById(id);
     }
 
-    public Optional<Article> findById(Long id) {
-        return articleRepo.findById(id);
+    public Article findById(Long id) {
+
+        if (articleRepo.findById(id).isPresent()) {
+            return articleRepo.findById(id).get();
+        }
+        return null;
     }
 }

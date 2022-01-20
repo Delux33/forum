@@ -4,7 +4,7 @@
 
 <@c.page>
     <form method="post" action="/topics/${id_message}/${article.id}/article" enctype="multipart/form-data">
-        <div class="form-floating mt-3">
+        <div class="form-floating mb-3">
             <input type="text" name="textArticle" class="form-control"
                    value="<#if article.textArticle??>${article.textArticle}</#if>"
                    placeholder="Напиши сюда текст для своей статьи"/>

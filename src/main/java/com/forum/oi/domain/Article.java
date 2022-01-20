@@ -2,6 +2,7 @@ package com.forum.oi.domain;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Article {
@@ -13,7 +14,11 @@ public class Article {
 
     private String textArticle;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,
+            cascade = { CascadeType.DETACH,
+                        CascadeType.MERGE,
+                        CascadeType.PERSIST,
+                        CascadeType.REFRESH })
     @JoinColumn(name = "message_id")
     private Message message;
 
@@ -21,12 +26,12 @@ public class Article {
     @JoinColumn(name = "user_id")
     private User author;
 
-    public Article() {
-    }
+    @OneToMany(fetch = FetchType.EAGER,
+            mappedBy = "article",
+            cascade = CascadeType.REMOVE)
+    private List<Comment> comment;
 
-    public Article(User author, String textArticle) {
-        this.author = author;
-        this.textArticle = textArticle;
+    public Article() {
     }
 
     public Article(String title, User author, Message message) {
@@ -73,5 +78,13 @@ public class Article {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
     }
 }

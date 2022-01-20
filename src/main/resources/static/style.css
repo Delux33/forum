@@ -1,3 +1,9 @@
 body {
     color: #911bd5;
 }
+
+.edit:after {
+    content: '\e802';
+    font-family: Linearicons-Free;
+    font-size: 15px;
+}

@@ -1,9 +1,11 @@
 package com.forum.oi.controller;
 
 import com.forum.oi.domain.Article;
+import com.forum.oi.domain.Comment;
 import com.forum.oi.domain.Message;
 import com.forum.oi.domain.User;
 import com.forum.oi.repos.ArticleRepo;
+import com.forum.oi.service.CommentService;
 import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +24,9 @@ public class ArticlesController {
 
     @Autowired
     private MessageAndArticleService messageAndArticleService;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("{topic}")
     public String articles(@PathVariable Message topic,
@@ -53,10 +58,15 @@ public class ArticlesController {
     }
 
     @GetMapping("{topic}/{article}")
-    public String showTextArticle(@PathVariable Article article,
+    public String showTextArticle(@AuthenticationPrincipal User currentUser,
+                                  @PathVariable Article article,
                                   @PathVariable Message topic,
                                   Map<String, Object> model) {
 
+        Iterable<Comment> comments = commentService.findAllComments();
+
+        model.put("comments", comments);
+        model.put("isOwnerArticle", currentUser.equals(article.getAuthor()));
         model.put("id_message", topic.getId());
         model.put("article", article);
 
@@ -76,7 +86,7 @@ public class ArticlesController {
         model.put("id_message", topic.getId());
         model.put("article", articleId);
 
-        return "article";
+        return "redirect:/topics/" + topic.getId() + "/" + articleId.getId();
     }
 
     @GetMapping("{message}/edit/{article}")
@@ -145,8 +155,8 @@ public class ArticlesController {
 
         Article currentArticle = null;
 
-        if (messageAndArticleService.findById(idArticle).isPresent()) {
-            currentArticle = messageAndArticleService.findById(idArticle).get();
+        if (messageAndArticleService.findById(idArticle) != null) {
+            currentArticle = messageAndArticleService.findById(idArticle);
         }
 
         if (currentArticle != null && (currentArticle.getAuthor().equals(currentUser) || currentUser.isAdmin())) {
@@ -158,22 +168,5 @@ public class ArticlesController {
         }
 
         return "redirect:/topics/" + message + "/" + idArticle;
-    }
-
-    @PostMapping("{message}/{article}/delete")
-    public String deleteArticle(@PathVariable Long message,
-                                @PathVariable Long article) {
-
-        Article currentArticle = null;
-
-        if (messageAndArticleService.findById(article).isPresent()) {
-            currentArticle = messageAndArticleService.findById(article).get();
-        }
-
-        currentArticle.setTextArticle(null);
-
-        articleRepo.save(currentArticle);
-
-        return "redirect:/topics/" + message + "/" + article;
     }
 }

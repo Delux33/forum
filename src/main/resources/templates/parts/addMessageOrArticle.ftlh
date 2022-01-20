@@ -1,14 +1,18 @@
 <#macro addTitle path isTopic>
+    <#include "security.ftlh" />
     <#if !isTopic>
         <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
            aria-controls="collapseExample">
-            Добавить название для статьи
+            Добавить название статьи
         </a>
     <#else>
-        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-           aria-controls="collapseExample">
-            Добавить новую тему
-        </a>
+        <#if isAdmin>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
+               aria-expanded="false"
+               aria-controls="collapseExample">
+                Добавить тему
+            </a>
+        </#if>
     </#if>
     <div class="collapse" id="collapseExample">
         <div class="form-group mt-3">

@@ -5,7 +5,9 @@
 <@c.page>
     <div class="row mb-3">
         <div class="col">
-            <a href="/topics">Назад</a>
+            <a href="/topics">
+                <span class="lnr lnr-arrow-left"></span>
+            </a>
         </div>
     </div>
     <@a.addTitle "/topics/${id_message}" false/>

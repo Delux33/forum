@@ -1,7 +1,7 @@
 package com.forum.oi.domain;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Message {
@@ -10,6 +10,11 @@ public class Message {
     private Long id;
 
     private String text;
+
+    @OneToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "message")
+    private Set<Article> article;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

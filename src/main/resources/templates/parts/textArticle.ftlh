@@ -4,6 +4,14 @@
             <div class="m-2">${article.textArticle}</div>
         </div>
     <#else>
-        <div align="center">Здесь почему-то пусто, это нужно исправить!</div>
+        <#if isOwnerArticle>
+            <div align="center">
+                <h4>Здесь почему-то пусто, это нужно исправить!</h4>
+            </div>
+        <#else>
+            <div align="center">
+                <h4>Автор статьи еще не написал текст, ожидайте</h4>
+            </div>
+        </#if>
     </#if>
 </#macro>
