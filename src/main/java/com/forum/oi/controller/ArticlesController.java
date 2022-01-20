@@ -113,7 +113,7 @@ public class ArticlesController {
                                           Map<String, Object> model) {
 
 
-        if (article.getAuthor().equals(currentUser) || currentUser.isAdmin()) {
+        if (article.getAuthor().equals(currentUser) || currentUser.isAdmin() || currentUser.isModerator()) {
             if (StringUtils.hasText(title)) {
                 article.setTitle(title);
             }
@@ -159,7 +159,7 @@ public class ArticlesController {
             currentArticle = messageAndArticleService.findById(idArticle);
         }
 
-        if (currentArticle != null && (currentArticle.getAuthor().equals(currentUser) || currentUser.isAdmin())) {
+        if (currentArticle != null && (currentArticle.getAuthor().equals(currentUser) || currentUser.isAdmin() || currentUser.isModerator())) {
             if (StringUtils.hasText(textArticle)) {
                 currentArticle.setTextArticle(textArticle);
             }

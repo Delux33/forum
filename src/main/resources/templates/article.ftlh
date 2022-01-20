@@ -11,7 +11,7 @@
         </div>
         <div class="col" align="right">
             <#if article.textArticle??>
-                <#if isOwnerArticle || isAdmin>
+                <#if isOwnerArticle || isAdmin || isModerator>
                     <a href="/topics/${id_message}/${article.id}/article">
                         <span class="lnr lnr-pencil mr-2"></span>
                     </a>

@@ -31,6 +31,10 @@ public class User implements UserDetails {
         return roles.contains(Role.ADMIN);
     }
 
+    public boolean isModerator() {
+        return roles.contains(Role.MODERATOR);
+    }
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

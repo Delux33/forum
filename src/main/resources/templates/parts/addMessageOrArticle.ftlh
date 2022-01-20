@@ -6,7 +6,7 @@
             Добавить название статьи
         </a>
     <#else>
-        <#if isAdmin>
+        <#if isAdmin || isModerator>
             <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
                aria-expanded="false"
                aria-controls="collapseExample">

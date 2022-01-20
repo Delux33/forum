@@ -74,7 +74,7 @@ public class TopicController {
                                    @RequestParam String topic) {
 
 
-        if (message.getAuthor().equals(currentUser) || currentUser.isAdmin()) {
+        if (message.getAuthor().equals(currentUser) || currentUser.isAdmin() || currentUser.isModerator()) {
             if (StringUtils.hasText(topic)) {
                 message.setText(topic);
             }
