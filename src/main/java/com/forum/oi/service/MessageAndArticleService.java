@@ -18,7 +18,7 @@ public class MessageAndArticleService {
     private MessageRepo messageRepo;
 
     public Iterable<Article> findAllArticlesForTopic(Message topic) {
-        return articleRepo.findAllArticlesByIdTopic(topic);
+        return articleRepo.findArticlesByMessage(topic);
     }
 
     public Iterable<Message> findAllMessages() {
