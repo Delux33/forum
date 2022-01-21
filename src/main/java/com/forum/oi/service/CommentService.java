@@ -1,5 +1,6 @@
 package com.forum.oi.service;
 
+import com.forum.oi.domain.Article;
 import com.forum.oi.domain.Comment;
 import com.forum.oi.repos.CommentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,12 @@ public class CommentService {
         commentRepo.save(comment);
     }
 
-    public Iterable<Comment> findAllComments() {
-        return commentRepo.findAll();
+    public Iterable<Comment> findCommentsForArticle(Article article) {
+        return commentRepo.findCommentsByArticle(article);
     }
 
+    public void deleteComment(Long commentId) {
+        commentRepo.deleteById(commentId);
+    }
 
 }

@@ -47,6 +47,12 @@
         <#list comments as comment>
             <div class="card mb-3">
                 <div class="card-body">
+                    <#if isAdmin>
+                        <form method="post" align="right" action="/topics/${id_message}/${article.id}/delete/${comment.id}">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                            <button type="submit" class="btn btn-outline-danger btn-sm">X</button>
+                        </form>
+                    </#if>
                     <h6 class="card-subtitle mb-2 text-muted">${comment.author.username}</h6>
                     <p class="card-text">${comment.comment}</p>
                 </div>

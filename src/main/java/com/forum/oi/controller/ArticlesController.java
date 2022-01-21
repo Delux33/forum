@@ -63,7 +63,7 @@ public class ArticlesController {
                                   @PathVariable Message topic,
                                   Map<String, Object> model) {
 
-        Iterable<Comment> comments = commentService.findAllComments();
+        Iterable<Comment> comments = commentService.findCommentsForArticle(article);
 
         model.put("comments", comments);
         model.put("isOwnerArticle", currentUser.equals(article.getAuthor()));

@@ -8,9 +8,10 @@ import com.forum.oi.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/topics/{message}/{article}")
@@ -18,16 +19,6 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
-
-//    @GetMapping("/safas")
-//    public String showComments(Map<String, Object> model) {
-//
-//        Iterable<Comment> comments = commentService.findAllComments();
-//
-//        model.put("comments", comments);
-//
-//        return "article";
-//    }
 
     @PostMapping("comment")
     public String addComment(@RequestParam String comment,
@@ -42,4 +33,13 @@ public class CommentController {
         return "redirect:/topics/" + message.getId() + "/" + article.getId();
     }
 
+    @PostMapping("delete/{comment}")
+    public String deleteComment(@PathVariable Long comment,
+                                @PathVariable Long message,
+                                @PathVariable Long article) {
+
+        commentService.deleteComment(comment);
+
+        return "redirect:/topics/" + message + "/" + article;
+    }
 }

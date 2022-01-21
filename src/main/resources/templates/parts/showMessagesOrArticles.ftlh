@@ -14,7 +14,7 @@
                                         <a href="${path}/edit/${message.id}">
                                             <span class="lnr lnr-pencil mr-2"></span>
                                         </a>
-                                        <button type="submit" class="btn btn-outline-danger">X</button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">X</button>
                                     </form>
                                 </#if>
                             </div>
@@ -39,7 +39,7 @@
                                             <span class="lnr lnr-pencil mr-2"></span>
                                         </a>
                                         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                                        <button type="submit" class="btn btn-outline-danger">X</button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">X</button>
                                     </form>
                                 </#if>
                             </div>
