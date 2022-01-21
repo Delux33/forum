@@ -1,17 +1,25 @@
 package com.forum.oi.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    @NotBlank(message = "Тема не должна быть пустой")
+    @Length(max = 115, message = "Слишком длинное название темы (максимум 110 символов)")
     private String text;
 
-    private String tag;
-
+    @OneToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.REMOVE,
+            mappedBy = "message")
+    private Set<Article> article;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -20,9 +28,8 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, String tag, User user) {
+    public Message(String text, User user) {
         this.text = text;
-        this.tag = tag;
         this.author = user;
     }
 
@@ -30,11 +37,11 @@ public class Message {
         return author != null ? author.getUsername() : "none";
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,14 +51,6 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
     }
 
     public User getAuthor() {

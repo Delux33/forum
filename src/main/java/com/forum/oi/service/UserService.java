@@ -20,14 +20,20 @@ public class UserService implements UserDetailsService {
     private UserRepo userRepo;
 
     @Autowired
-    private MailSenderService mailSenderService;
+    private MailService mailSenderService;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
     }
 
     public boolean addUser(User user) {
@@ -40,7 +46,7 @@ public class UserService implements UserDetailsService {
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepo.save(user);
 
@@ -51,7 +57,7 @@ public class UserService implements UserDetailsService {
                     user.getActivationCode()
             );
 
-            mailSenderService.send(user.getEmail(), "Код активации", message);
+            mailSenderService.send(user.getEmail(), "Код активации акка на форуме", message);
         }
 
         return true;
@@ -61,7 +67,10 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-    public void saveUser(User user, String username, Map<String, String> form) {
+    public void saveUser(User user,
+                         String username,
+                         Map<String, String> form) {
+
         user.setUsername(username);
 
         Set<String> roles = Arrays.stream(Role.values())
@@ -98,4 +107,5 @@ public class UserService implements UserDetailsService {
 
         return true;
     }
+
 }

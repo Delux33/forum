@@ -16,9 +16,9 @@
                 <tbody>
                 <#list users as user>
                     <tr>
-                        <td><a href="/user-messages/${user.id}">${user.username}</a></td>
+                        <td>${user.username}</td>
                         <td><#list user.roles as role>${role}<#sep>, </#list></td>
-                        <td><a class="edit" href="/user/${user.id}"/></td>
+                        <td><a href="/user/${user.id}"/>Имя и роль</td>
                     </tr>
                 </#list>
                 </tbody>
