@@ -43,7 +43,6 @@ public class TopicController {
                            BindingResult bindingResult,
                            Model model) {
 
-
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ErrorsController.getErrors(bindingResult);
 
