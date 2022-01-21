@@ -41,11 +41,17 @@ public class MessageAndArticleService {
         return null;
     }
 
-    public void createAndSaveArticle(String title, User author, Message topic) {
+    public void createAndSaveArticle(Article article, User author, Message message) {
 
-        Article article = new Article(title, author, topic);
-
+        article.setMessage(message);
+        article.setAuthor(author);
         articleRepo.save(article);
+    }
+
+    public void createAndSaveMessage(Message message, User author) {
+
+        message.setAuthor(author);
+        messageRepo.save(message);
     }
 
     public void saveTextArticle(String textArticle, Article article) {
@@ -82,13 +88,6 @@ public class MessageAndArticleService {
 
             articleRepo.save(currentArticle);
         }
-    }
-
-    public void createAndSaveMessage(String text, User user) {
-
-        Message message = new Message(text, user);
-
-        messageRepo.save(message);
     }
 
     public void saveChangedMessage(User currentUser, String topic, Message message) {

@@ -3,7 +3,7 @@
     <#if isTopic>
         <div class="shadow-lg p-3 mb-5 bg-body rounded mt-3">
             <#list messages as message>
-                <div class="shadow-lg bg-body rounded mt-3">
+                <div class="shadow-lg bg-body rounded mt-2">
                     <div class="bg-light border">
                         <div class="row ml-2 align-items-center">
                             <a href="${path}/${message.id}">${message.text}</a>

@@ -9,8 +9,11 @@ import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -36,16 +39,23 @@ public class ArticlesController {
     }
 
     @PostMapping("{topic}")
-    public String addTitle(@RequestParam String title,
-                           @AuthenticationPrincipal User author,
+    public String addTitle(@AuthenticationPrincipal User author,
                            @PathVariable Message topic,
-                           Map<String, Object> model) {
+                           @Valid Article article,
+                           BindingResult bindingResult,
+                           Model model) {
 
-        messageAndArticleService.createAndSaveArticle(title, author, topic);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ErrorsController.getErrors(bindingResult);
 
-        Iterable<Article> articlesTitle = messageAndArticleService.findAllArticlesForTopic(topic);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("article", article);
+        } else {
 
-        model.put("articlesTitle", articlesTitle);
+            model.addAttribute("article", null);
+
+            messageAndArticleService.createAndSaveArticle(article, author, topic);
+        }
 
         return "redirect:/topics/" + topic.getId();
     }

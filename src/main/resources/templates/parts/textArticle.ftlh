@@ -6,7 +6,7 @@
     <#else>
         <#if isOwnerArticle>
             <div align="center">
-                <h4>Здесь почему-то пусто, это нужно исправить!</h4>
+                <h4>Если создал заголовок, значит пора писать статью!</h4>
             </div>
         <#else>
             <div align="center">

@@ -27,7 +27,7 @@ CREATE TABLE message
 CREATE TABLE article
 (
     id           BIGSERIAL    NOT NULL,
-    text_article VARCHAR(2048),
+    text_article VARCHAR(50000),
     title        VARCHAR(255) NOT NULL,
     user_id      INT8         NOT NULL,
     message_id   INT8         NOT NULL,

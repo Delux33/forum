@@ -1,6 +1,9 @@
 package com.forum.oi.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -9,6 +12,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Тема не должна быть пустой")
+    @Length(max = 115, message = "Слишком длинное название темы (максимум 110 символов)")
     private String text;
 
     @OneToMany(fetch = FetchType.EAGER,
