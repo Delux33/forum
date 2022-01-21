@@ -4,13 +4,11 @@ import com.forum.oi.domain.Article;
 import com.forum.oi.domain.Comment;
 import com.forum.oi.domain.Message;
 import com.forum.oi.domain.User;
-import com.forum.oi.repos.ArticleRepo;
 import com.forum.oi.service.CommentService;
 import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,9 +16,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/topics")
 public class ArticlesController {
-
-    @Autowired
-    private ArticleRepo articleRepo;
 
     @Autowired
     private MessageAndArticleService messageAndArticleService;
@@ -46,9 +41,7 @@ public class ArticlesController {
                            @PathVariable Message topic,
                            Map<String, Object> model) {
 
-        Article article = new Article(title, author, topic);
-
-        articleRepo.save(article);
+        messageAndArticleService.createAndSaveArticle(title, author, topic);
 
         Iterable<Article> articlesTitle = messageAndArticleService.findAllArticlesForTopic(topic);
 
@@ -73,20 +66,18 @@ public class ArticlesController {
         return "article";
     }
 
-    @PostMapping("{topic}/{articleId}")
+    @PostMapping("{topic}/{article}")
     public String addTextArticle(@RequestParam String textArticle,
-                                 @PathVariable Article articleId,
+                                 @PathVariable Article article,
                                  @PathVariable Message topic,
                                  Map<String, Object> model) {
 
-        articleId.setTextArticle(textArticle);
-
-        articleRepo.save(articleId);
+        messageAndArticleService.saveTextArticle(textArticle, article);
 
         model.put("id_message", topic.getId());
-        model.put("article", articleId);
+        model.put("article", article);
 
-        return "redirect:/topics/" + topic.getId() + "/" + articleId.getId();
+        return "redirect:/topics/" + topic.getId() + "/" + article.getId();
     }
 
     @GetMapping("{message}/edit/{article}")
@@ -109,17 +100,9 @@ public class ArticlesController {
     public String saveChangedArticleTitle(@AuthenticationPrincipal User currentUser,
                                           @RequestParam Article article,
                                           @RequestParam String title,
-                                          @PathVariable Long message,
-                                          Map<String, Object> model) {
+                                          @PathVariable Long message) {
 
-
-        if (article.getAuthor().equals(currentUser) || currentUser.isAdmin() || currentUser.isModerator()) {
-            if (StringUtils.hasText(title)) {
-                article.setTitle(title);
-            }
-
-            articleRepo.save(article);
-        }
+        messageAndArticleService.saveChangedArticleTitle(currentUser, title, article);
 
         return "redirect:/topics/" + message;
     }
@@ -153,19 +136,7 @@ public class ArticlesController {
                                      @RequestParam String textArticle,
                                      @PathVariable Long message) {
 
-        Article currentArticle = null;
-
-        if (messageAndArticleService.findById(idArticle) != null) {
-            currentArticle = messageAndArticleService.findById(idArticle);
-        }
-
-        if (currentArticle != null && (currentArticle.getAuthor().equals(currentUser) || currentUser.isAdmin() || currentUser.isModerator())) {
-            if (StringUtils.hasText(textArticle)) {
-                currentArticle.setTextArticle(textArticle);
-            }
-
-            articleRepo.save(currentArticle);
-        }
+        messageAndArticleService.saveChangedArticle(currentUser, idArticle, textArticle);
 
         return "redirect:/topics/" + message + "/" + idArticle;
     }

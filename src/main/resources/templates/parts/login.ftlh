@@ -22,7 +22,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Phone number:</label>
                 <div class="col-sm-5">
-                    <input type="text" name="phoneNumber" class="form-control" placeholder="XXX-XX-XX"/>
+                    <input type="text" name="phoneNumber" class="form-control" placeholder="8(XXX)XXX-XX-XX"/>
                 </div>
             </div>
         </#if>

@@ -1,7 +1,6 @@
 package com.forum.oi.controller;
 
 import com.forum.oi.domain.Article;
-import com.forum.oi.domain.Comment;
 import com.forum.oi.domain.Message;
 import com.forum.oi.domain.User;
 import com.forum.oi.service.CommentService;
@@ -26,9 +25,7 @@ public class CommentController {
                              @PathVariable Message message,
                              @PathVariable Article article) {
 
-        Comment newComment = new Comment(comment, author, article);
-
-        commentService.saveComment(newComment);
+        commentService.createAndSaveComment(comment, author, article);
 
         return "redirect:/topics/" + message.getId() + "/" + article.getId();
     }

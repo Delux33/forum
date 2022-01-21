@@ -2,12 +2,10 @@ package com.forum.oi.controller;
 
 import com.forum.oi.domain.Message;
 import com.forum.oi.domain.User;
-import com.forum.oi.repos.MessageRepo;
 import com.forum.oi.service.MessageAndArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +15,6 @@ import java.util.Map;
 
 @Controller
 public class TopicController {
-    @Autowired
-    private MessageRepo messageRepo;
 
     @Autowired
     private MessageAndArticleService messageAndArticleService;
@@ -31,7 +27,7 @@ public class TopicController {
     @GetMapping("/topics")
     public String topic(Map<String, Object> model) {
 
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Message> messages = messageAndArticleService.findAllMessages();
 
         model.put("messages", messages);
 
@@ -43,11 +39,9 @@ public class TopicController {
                            @RequestParam String text,
                            Map<String, Object> model) {
 
-        Message message = new Message(text, user);
+        messageAndArticleService.createAndSaveMessage(text, user);
 
-        messageRepo.save(message);
-
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Message> messages = messageAndArticleService.findAllMessages();
 
         model.put("messages", messages);
 
@@ -59,7 +53,7 @@ public class TopicController {
                             @PathVariable Message message,
                             Map<String, Object> model) {
 
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Message> messages = messageAndArticleService.findAllMessages();
 
         model.put("messages", messages);
         model.put("message", message);
@@ -69,18 +63,11 @@ public class TopicController {
     }
 
     @PostMapping("/topics/edit/{messageId}")
-    public String saveChangedTopic(@AuthenticationPrincipal User currentUser,
+    public String saveChangedMessage(@AuthenticationPrincipal User currentUser,
                                    @RequestParam Message message,
                                    @RequestParam String topic) {
 
-
-        if (message.getAuthor().equals(currentUser) || currentUser.isAdmin() || currentUser.isModerator()) {
-            if (StringUtils.hasText(topic)) {
-                message.setText(topic);
-            }
-
-            messageRepo.save(message);
-        }
+        messageAndArticleService.saveChangedMessage(currentUser, topic, message);
 
         return "redirect:/topics";
     }
