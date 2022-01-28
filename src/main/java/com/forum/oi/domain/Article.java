@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
+@Table(name = "article")
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +18,7 @@ public class Article {
     @Length(max = 110, message = "Слишком длинное название темы (максимум 110 символов)")
     private String title;
 
+    @Column(name = "text_article")
     private String textArticle;
 
     @ManyToOne(fetch = FetchType.EAGER,

@@ -33,6 +33,10 @@ public class RegistrationController {
 
         boolean isConfirmNotEmpty = StringUtils.hasText(passwordConfirm);
 
+        if (!isConfirmNotEmpty) {
+            model.addAttribute("password2Error", "Повтор пароля не может быть пустым");
+        }
+
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Пароли не совпадают!");
             model.addAttribute("password2Error", "Пароли не совпадают!");

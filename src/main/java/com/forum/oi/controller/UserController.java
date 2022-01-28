@@ -41,8 +41,14 @@ public class UserController {
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user) {
 
-        userService.saveUser(user, username, form);
+        if (user.isAdmin()) {
+            userService.saveUser(user, form);
 
-        return "redirect:/user";
+            return "redirect:/user/" + user.getId();
+        } else {
+            userService.saveUser(user, username, form);
+
+            return "redirect:/user/";
+        }
     }
 }
