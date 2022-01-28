@@ -33,6 +33,4 @@ add_admin_role=$(psql -U postgres -d forum -c "INSERT INTO user_role (user_id, r
 add_user_role=$(psql -U postgres -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'USER')")
 add_moderator_role=$(psql -U postgres -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'MODERATOR')")
 
-# psql -U postgres -d forum -c "SELECT * FROM usr"
-
 echo -e "\033[32mАдмин с именем "$name_admin" успешно добавлен на форум\033[0m"

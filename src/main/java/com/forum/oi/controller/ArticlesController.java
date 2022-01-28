@@ -158,6 +158,13 @@ public class ArticlesController {
                 return "editArticleTitle";
             }
 
+            if (article.getTitle().equals(title)) {
+                model.addAttribute("titleArticleError", "Изменений не найдено");
+                model.addAttribute("title", title);
+
+                return "editArticleTitle";
+            }
+
             if (messageAndArticleService.findByTitleArticle(title).equals(title)) {
                 model.addAttribute("titleArticleError", "Заголовок статьи с таким именем уже существует");
                 model.addAttribute("title", title);

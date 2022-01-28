@@ -107,6 +107,13 @@ public class TopicController {
                 return "editTopic";
             }
 
+            if (messageId.getText().equals(topic)) {
+                model.addAttribute("topicError", "Изменений не найдено");
+                model.addAttribute("text", topic);
+
+                return "editTopic";
+            }
+
             if (messageAndArticleService.findByTopic(topic).equals(topic)) {
                 model.addAttribute("topicError", "Тема с таким именем уже существует");
                 model.addAttribute("text", topic);
