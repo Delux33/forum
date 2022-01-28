@@ -21,6 +21,22 @@ public class MessageAndArticleService {
         return articleRepo.findArticlesByMessage(topic);
     }
 
+    public String findByTopic(String topic) {
+        if (messageRepo.findByText(topic) == null) {
+            return "";
+        } else {
+            return messageRepo.findByText(topic).getText();
+        }
+    }
+
+    public String findByTitleArticle(String title) {
+        if (articleRepo.findArticleByTitle(title) == null) {
+            return "";
+        } else {
+            return articleRepo.findArticleByTitle(title).getTitle();
+        }
+    }
+
     public Iterable<Message> findAllMessages() {
         return messageRepo.findAll();
     }
@@ -41,17 +57,18 @@ public class MessageAndArticleService {
         return null;
     }
 
-    public void createAndSaveArticle(Article article, User author, Message message) {
+    public void createAndSaveArticle(String title, User author, Message message) {
 
-        article.setMessage(message);
-        article.setAuthor(author);
-        articleRepo.save(article);
+        Article newArticleTitle = new Article(title, author, message);
+
+        articleRepo.save(newArticleTitle);
     }
 
-    public void createAndSaveMessage(Message message, User author) {
+    public void createAndSaveMessage(String message, User author) {
 
-        message.setAuthor(author);
-        messageRepo.save(message);
+        Message newMessage = new Message(message, author);
+
+        messageRepo.save(newMessage);
     }
 
     public void saveTextArticle(String textArticle, Article article) {

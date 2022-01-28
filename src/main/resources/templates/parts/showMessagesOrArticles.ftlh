@@ -22,7 +22,7 @@
                     </div>
                 </div>
             <#else>
-                <div align="center">Темы отсутствуют, нужно что-то добавить</div>
+                <div align="center">Темы отсутствуют, ждем когда их добавят</div>
             </#list>
         </div>
     <#else>
