@@ -2,7 +2,7 @@
 
 echo "Начинаем настройку форума..."
 
-mv *.service /etc/systemd/system/forum.service
+mv ./*.service /etc/systemd/system/forum.service
 
 systemctl daemon-reload
 
