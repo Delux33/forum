@@ -27,10 +27,10 @@ do
 done
 
 echo
-add_admin_to_bd=$(psql -U postgres -d forum -c "INSERT INTO usr (id, active, password, username) VALUES (1, true, '$pass_admin', '$name_admin')")
+add_admin_to_bd=$(psql -U forum -d forum -c "INSERT INTO usr (id, active, password, username) VALUES (1, true, '$pass_admin', '$name_admin')")
 
-add_admin_role=$(psql -U postgres -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'ADMIN')")
-add_user_role=$(psql -U postgres -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'USER')")
-add_moderator_role=$(psql -U postgres -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'MODERATOR')")
+add_admin_role=$(psql -U forum -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'ADMIN')")
+add_user_role=$(psql -U forum -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'USER')")
+add_moderator_role=$(psql -U forum -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'MODERATOR')")
 
 echo -e "\033[32mАдмин с именем ""$name_admin"" успешно добавлен на форум\033[0m"

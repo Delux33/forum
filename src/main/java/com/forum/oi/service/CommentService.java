@@ -7,6 +7,8 @@ import com.forum.oi.repos.CommentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CommentService {
 
@@ -23,7 +25,10 @@ public class CommentService {
 
     public void createAndSaveComment(String comment, User author, Article article) {
 
-        Comment newComment = new Comment(comment, author, article);
+        String time = LocalDateTime.now().getYear() + ":" + LocalDateTime.now().getMonthValue() + ":" + LocalDateTime.now().getDayOfMonth() + " "
+                + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute();
+
+        Comment newComment = new Comment(comment, author, article, time);
 
         commentRepo.save(newComment);
     }

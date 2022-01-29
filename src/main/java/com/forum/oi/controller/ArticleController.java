@@ -13,11 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/topics")
-public class ArticlesController {
+public class ArticleController {
 
     @Autowired
     private MessageAndArticleService messageAndArticleService;

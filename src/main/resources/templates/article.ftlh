@@ -60,6 +60,7 @@
                     </#if>
                     <h6 class="card-subtitle mb-2 text-muted">${comment.author.username}</h6>
                     <p class="card-text">${comment.comment}</p>
+                    <p class="card-text" align="right">${comment.time}</p>
                 </div>
             </div>
         <#else>

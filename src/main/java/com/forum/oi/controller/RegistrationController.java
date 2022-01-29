@@ -45,7 +45,7 @@ public class RegistrationController {
 
         if (!isConfirmNotEmpty || bindingResult.hasErrors()) {
 
-            Map<String, String> errors = ErrorsController.getErrors(bindingResult);
+            Map<String, String> errors = ErrorController.getErrors(bindingResult);
 
             model.mergeAttributes(errors);
             return "registration";

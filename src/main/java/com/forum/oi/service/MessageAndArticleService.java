@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+
 @Service
 public class MessageAndArticleService {
     @Autowired
@@ -59,14 +61,24 @@ public class MessageAndArticleService {
 
     public void createAndSaveArticle(String title, User author, Message message) {
 
-        Article newArticleTitle = new Article(title, author, message);
+        String time =
+                LocalDateTime.now().getYear() + ":" +
+                LocalDateTime.now().getMonthValue() + ":" +
+                LocalDateTime.now().getDayOfMonth();
+
+        Article newArticleTitle = new Article(title, author, message, time);
 
         articleRepo.save(newArticleTitle);
     }
 
     public void createAndSaveMessage(String message, User author) {
 
-        Message newMessage = new Message(message, author);
+        String time =
+                LocalDateTime.now().getYear() + ":" +
+                LocalDateTime.now().getMonthValue() + ":" +
+                LocalDateTime.now().getDayOfMonth();
+
+        Message newMessage = new Message(message, author, time);
 
         messageRepo.save(newMessage);
     }

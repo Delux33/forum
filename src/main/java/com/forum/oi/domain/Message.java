@@ -11,6 +11,8 @@ public class Message {
 
     private String text;
 
+    private String time;
+
     @OneToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
             mappedBy = "message")
@@ -23,9 +25,10 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, User user) {
+    public Message(String text, User user,  String time) {
         this.text = text;
         this.author = user;
+        this.time = time;
     }
 
     public String getAuthorName() {
@@ -54,5 +57,21 @@ public class Message {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Set<Article> getArticle() {
+        return article;
+    }
+
+    public void setArticle(Set<Article> article) {
+        this.article = article;
     }
 }

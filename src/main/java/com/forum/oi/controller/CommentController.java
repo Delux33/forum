@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequestMapping("/topics/{message}/{article}")
 public class CommentController {
@@ -45,6 +47,7 @@ public class CommentController {
         if (!StringUtils.hasText(comment)) {
             model.addAttribute("commentError", "Комментарий не может быть пустой");
         } else {
+
             commentService.createAndSaveComment(comment, currentUser, article);
 
             return "redirect:/topics/" + message.getId() + "/" + article.getId();

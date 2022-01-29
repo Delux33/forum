@@ -13,6 +13,8 @@ public class Article {
 
     private String title;
 
+    private String time;
+
     @Column(name = "text_article")
     private String textArticle;
 
@@ -36,10 +38,11 @@ public class Article {
     public Article() {
     }
 
-    public Article(String title, User author, Message message) {
+    public Article(String title, User author, Message message, String time) {
         this.title = title;
         this.author = author;
         this.message = message;
+        this.time = time;
     }
 
     public Long getId() {
@@ -88,5 +91,13 @@ public class Article {
 
     public void setComment(List<Comment> comment) {
         this.comment = comment;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
