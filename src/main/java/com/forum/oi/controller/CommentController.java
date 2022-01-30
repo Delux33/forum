@@ -39,7 +39,8 @@ public class CommentController {
         model.addAttribute("article", article);
 
         if (comment.length() > 10) {
-            model.addAttribute("commentError", "Комментарий больше 10 символов - это очень много");
+            model.addAttribute("commentError", "Комментарий больше 10 символов " +
+                    "- это очень много");
 
             return "article";
         }

@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Controller
@@ -55,14 +54,16 @@ public class ArticleController {
         } else {
 
             if (article.length() > 10) {
-                model.addAttribute("titleArticleError", "Заголовок статьи больше 10 символов - это очень много");
+                model.addAttribute("titleArticleError", "Заголовок статьи больше 10 символов " +
+                        "- это очень много");
                 model.addAttribute("title", article);
 
                 return "articleTitle";
             }
 
             if (messageAndArticleService.findByTitleArticle(article).equals(article)) {
-                model.addAttribute("titleArticleError", "Заголовок статьи с таким именем уже существует");
+                model.addAttribute("titleArticleError", "Заголовок статьи с таким именем " +
+                        "уже существует");
                 model.addAttribute("title", article);
 
                 return "articleTitle";
@@ -106,7 +107,8 @@ public class ArticleController {
         model.addAttribute("article", article);
 
         if (textArticle.length() > 10) {
-            model.addAttribute("textArticleError", "Статья больше 10 символов - это очень много");
+            model.addAttribute("textArticleError", "Статья больше 10 символов " +
+                    "- это очень много");
             return "article";
         }
 
@@ -153,7 +155,8 @@ public class ArticleController {
         } else {
 
             if (title.length() > 10) {
-                model.addAttribute("titleArticleError", "Заголовок статьи больше 10 символов - это очень много");
+                model.addAttribute("titleArticleError", "Заголовок статьи больше 10 символов " +
+                        "- это очень много");
                 model.addAttribute("title", title);
 
                 return "editArticleTitle";
@@ -167,7 +170,8 @@ public class ArticleController {
             }
 
             if (messageAndArticleService.findByTitleArticle(title).equals(title)) {
-                model.addAttribute("titleArticleError", "Заголовок статьи с таким именем уже существует");
+                model.addAttribute("titleArticleError", "Заголовок статьи с таким именем " +
+                        "уже существует");
                 model.addAttribute("title", title);
 
                 return "editArticleTitle";
@@ -220,7 +224,8 @@ public class ArticleController {
         } else {
 
             if (textArticle.length() > 10) {
-                model.addAttribute("textArticleError", "Статья больше 10 символов - это очень много");
+                model.addAttribute("textArticleError", "Статья больше 10 символов " +
+                        "- это очень много");
                 model.addAttribute("textArticle", textArticle);
 
                 return "editArticle";

@@ -30,8 +30,10 @@
                 <div class="form-group">
                     <form method="post" action="/topics/${id_message}/${article.id}" enctype="multipart/form-data">
                         <div class="form-floating mt-3">
-                    <textarea class="form-control ${(textArticleError??)?string('is-invalid', '')}" type="text" name="textArticle"
-                              placeholder="Напиши сюда текст для своей статьи" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <textarea class="form-control ${(textArticleError??)?string('is-invalid', '')}" type="text"
+                              name="textArticle"
+                              placeholder="Напиши сюда текст для своей статьи" id="floatingTextarea2"
+                              style="height: 100px"></textarea>
                             <#if textArticleError??>
                                 <div class="invalid-feedback">
                                     ${textArticleError}
@@ -53,7 +55,8 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <#if isAdmin>
-                        <form method="post" align="right" action="/topics/${id_message}/${article.id}/delete/${comment.id}">
+                        <form method="post" align="right"
+                              action="/topics/${id_message}/${article.id}/delete/${comment.id}">
                             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                             <button type="submit" class="btn btn-outline-danger btn-sm">X</button>
                         </form>
@@ -69,7 +72,8 @@
         <div class="form-group mt-3">
             <form method="post" action="/topics/${id_message}/${article.id}/comment" enctype="multipart/form-data">
                 <div class="form-group <#if commentError??>show</#if>">
-            <textarea class="form-control ${(commentError??)?string('is-invalid', '')}" type="comment" name="comment" placeholder="Напиши сюда свой комментарий"
+            <textarea class="form-control ${(commentError??)?string('is-invalid', '')}" type="comment" name="comment"
+                      placeholder="Напиши сюда свой комментарий"
                       id="floatingTextarea2" style="height: 100px"></textarea>
                     <#if commentError??>
                         <div class="invalid-feedback">

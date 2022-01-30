@@ -24,7 +24,8 @@
         <div class="form-group <#if titleArticleError??>show</#if> mt-3">
             <form method="post" action="${path}" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="text" name="title" class="form-control ${(titleArticleError??)?string('is-invalid', '')}"
+                    <input type="text" name="title"
+                           class="form-control ${(titleArticleError??)?string('is-invalid', '')}"
                            value="<#if title??>${title}<#else>${article.title}</#if>"
                            placeholder="Введите название статьи"/>
                     <#if titleArticleError??>
