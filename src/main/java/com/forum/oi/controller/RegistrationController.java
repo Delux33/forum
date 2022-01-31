@@ -40,6 +40,7 @@ public class RegistrationController {
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Пароли не совпадают!");
             model.addAttribute("password2Error", "Пароли не совпадают!");
+
             return "registration";
         }
 
@@ -48,14 +49,15 @@ public class RegistrationController {
             Map<String, String> errors = ErrorController.getErrors(bindingResult);
 
             model.mergeAttributes(errors);
+
             return "registration";
         }
 
         if (!userService.addUser(user)) {
             model.addAttribute("usernameError", "User exists");
+
             return "registration";
         }
-
         return "redirect:/login";
     }
 

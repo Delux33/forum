@@ -47,7 +47,9 @@ public class TopicController {
 
         if (!StringUtils.hasText(message)) {
             model.addAttribute("topicError", "Заголовок статьи не может быть пустой");
+
         } else {
+
             if (message.length() > 10) {
                 model.addAttribute("topicError", "Заголовок статьи больше 10 символов " +
                         "- это очень много");
@@ -67,7 +69,6 @@ public class TopicController {
 
             return "redirect:/topics";
         }
-
         return "topic";
     }
 
@@ -99,6 +100,7 @@ public class TopicController {
 
         if (!StringUtils.hasText(topic)) {
             model.addAttribute("topicError", "Заголовок статьи не может быть пустой");
+
         } else {
 
             if (topic.length() > 10) {
@@ -127,7 +129,6 @@ public class TopicController {
 
             return "redirect:/topics";
         }
-
         return "editTopic";
     }
 

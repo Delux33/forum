@@ -51,6 +51,7 @@ public class ArticleController {
 
         if (!StringUtils.hasText(article)) {
             model.addAttribute("titleArticleError", "Заголовок статьи не может быть пустой");
+
         } else {
 
             if (article.length() > 10) {
@@ -106,15 +107,18 @@ public class ArticleController {
         model.addAttribute("id_message", topic.getId());
         model.addAttribute("article", article);
 
-        if (textArticle.length() > 10) {
-            model.addAttribute("textArticleError", "Статья больше 10 символов " +
-                    "- это очень много");
-            return "article";
-        }
-
         if (!StringUtils.hasText(textArticle)) {
             model.addAttribute("textArticleError", "Статья не может быть пустой");
+
         } else {
+
+            if (textArticle.length() > 10) {
+                model.addAttribute("textArticleError", "Статья больше 10 символов " +
+                        "- это очень много");
+
+                return "article";
+            }
+
             messageAndArticleService.saveTextArticle(textArticle, article);
         }
         return "article";
@@ -152,6 +156,7 @@ public class ArticleController {
 
         if (!StringUtils.hasText(title)) {
             model.addAttribute("titleArticleError", "Заголовок статьи не может быть пустой");
+
         } else {
 
             if (title.length() > 10) {
@@ -221,6 +226,7 @@ public class ArticleController {
 
         if (!StringUtils.hasText(textArticle)) {
             model.addAttribute("textArticleError", "Статья не может быть пустой");
+
         } else {
 
             if (textArticle.length() > 10) {

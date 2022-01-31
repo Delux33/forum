@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
-
 @Controller
 @RequestMapping("/topics/{message}/{article}")
 public class CommentController {
@@ -38,16 +36,17 @@ public class CommentController {
         model.addAttribute("id_message", message.getId());
         model.addAttribute("article", article);
 
-        if (comment.length() > 10) {
-            model.addAttribute("commentError", "Комментарий больше 10 символов " +
-                    "- это очень много");
-
-            return "article";
-        }
-
         if (!StringUtils.hasText(comment)) {
             model.addAttribute("commentError", "Комментарий не может быть пустой");
+
         } else {
+
+            if (comment.length() > 10) {
+                model.addAttribute("commentError", "Комментарий больше 10 символов " +
+                        "- это очень много");
+
+                return "article";
+            }
 
             commentService.createAndSaveComment(comment, currentUser, article);
 

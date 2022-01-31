@@ -46,10 +46,14 @@ public class UserController {
             userService.saveUser(user, form);
 
             return "redirect:/user/" + user.getId();
+
         } else {
+
             if (!StringUtils.hasText(username)) {
                 return "redirect:/user/";
+
             } else {
+
                 userService.saveUser(user, username, form);
             }
             return "redirect:/user/";
