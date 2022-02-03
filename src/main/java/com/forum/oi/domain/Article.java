@@ -5,7 +5,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "article")
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

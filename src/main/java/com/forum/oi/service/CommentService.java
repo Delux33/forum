@@ -19,6 +19,10 @@ public class CommentService {
         return commentRepo.findCommentsByArticle(article);
     }
 
+    public Iterable<Comment> findAllComments() {
+        return commentRepo.findAll();
+    }
+
     public void deleteComment(Long commentId) {
         commentRepo.deleteById(commentId);
     }
@@ -31,5 +35,9 @@ public class CommentService {
         Comment newComment = new Comment(comment, author, article, time);
 
         commentRepo.save(newComment);
+    }
+
+    public void save(Comment comment) {
+        commentRepo.save(comment);
     }
 }

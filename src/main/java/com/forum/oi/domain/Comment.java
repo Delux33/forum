@@ -12,6 +12,12 @@ public class Comment {
 
     private String time;
 
+    private String answerTime;
+
+    private boolean answeredComment;
+
+    private String answer;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
@@ -68,5 +74,29 @@ public class Comment {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean isAnsweredComment() {
+        return answeredComment;
+    }
+
+    public void setAnsweredComment(boolean answeredComment) {
+        this.answeredComment = answeredComment;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getAnswerTime() {
+        return answerTime;
+    }
+
+    public void setAnswerTime(String answerTime) {
+        this.answerTime = answerTime;
     }
 }

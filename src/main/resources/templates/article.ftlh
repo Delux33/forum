@@ -66,6 +66,24 @@
                     <p class="card-text" align="right">${comment.time}</p>
                 </div>
             </div>
+                <div class="card-body">
+                    <#if comment.answeredComment>
+                        <h6 class="card-subtitle mb-2 text-muted">User: ${comment.author.username}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Comment: ${comment.comment}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Comment time: ${comment.time}</h6>
+                        <hr>
+                        <#if isAdmin>
+                            <form method="post" align="right"
+                                  action="/topics/${id_message}/${article.id}/delete/answer/${comment.id}">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                <button type="submit" class="btn btn-outline-danger btn-sm">X</button>
+                            </form>
+                        </#if>
+                        <h6 class="card-subtitle mb-2 text-muted">answer from Bot</h6>
+                        <p class="card-text">${comment.answer}</p>
+                        <p class="card-text" align="right">${comment.answerTime}</p>
+                    </#if>
+                </div>
         <#else>
             <div align="center">Комментарии отсутствуют, можешь добавить свой</div>
         </#list>
