@@ -34,6 +34,15 @@ http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 ">
         </fileSet>
 
         <fileSet>
+            <directory>src/main/scripts/bot</directory>
+            <outputDirectory>bot</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <fileSet>
             <directory>target</directory>
             <outputDirectory>/</outputDirectory>
             <includes>

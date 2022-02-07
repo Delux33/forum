@@ -5,7 +5,7 @@ import com.forum.oi.repos.TextForBotRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class BotService {
@@ -15,19 +15,31 @@ public class BotService {
 
     public String textForBot() {
 
-        Long random = 1 + (long) (Math.random() * 10);
+        List<TextForBot> textForBotHasFalse = textForBotRepo.findByUsedIsFalse();
 
-        Optional<TextForBot> textForBot = textForBotRepo.findById(random);
+        if (textForBotHasFalse.isEmpty()) {
 
-        if (textForBot.isPresent()) {
+            return "Не знаю, что тебе ответить";
+        } else {
 
-            if (textForBot.get().isUsed()) {
+            int random = textForBotHasFalse.size() == 1 ? 0 : (1 + (int) (Math.random() * (textForBotHasFalse.size() - 1)));
 
-                return textForBot();
+            TextForBot text = textForBotHasFalse.get(random);
+
+            if (text.getText().isEmpty()) {
+
+                if (textForBotHasFalse.size() == 1) {
+
+                    return "Не знаю, что тебе ответить";
+                } else {
+
+                    while (text.getText().isEmpty()) {
+
+                        text = textForBotHasFalse.get(++random);
+                    }
+                }
 
             } else {
-
-                TextForBot text = textForBot.get();
 
                 text.setUsed(true);
                 textForBotRepo.save(text);

@@ -23,7 +23,7 @@ public class BotController {
     @Autowired
     private CommentService commentService;
 
-    //@Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void addBotAnswer() {
 
         Iterable<Comment> allComments = commentService.findAllComments();
@@ -34,7 +34,8 @@ public class BotController {
 
                 String textForBot = botService.textForBot();
 
-                String time = LocalDateTime.now().getYear() + ":" + LocalDateTime.now().getMonthValue() + ":" + LocalDateTime.now().getDayOfMonth() + " "
+                String time = LocalDateTime.now().getYear() + ":" + LocalDateTime.now().getMonthValue() + ":"
+                        + LocalDateTime.now().getDayOfMonth() + " "
                         + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute();
 
                 comment.setAnswerTime(time);

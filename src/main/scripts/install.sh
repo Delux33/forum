@@ -2,10 +2,6 @@
 
 echo "Начинаем настройку форума..."
 
-mv ./*.service /etc/systemd/system/forum.service
-
-systemctl daemon-reload
-
 echo -e "\033[32mПервоначальная настройка закончена, давай создадим админа\033[0m"
 
 read -r -p 'Введите имя: ' name_admin
@@ -34,3 +30,9 @@ add_user_role=$(psql -U forum -d forum -c "INSERT INTO user_role (user_id, roles
 add_moderator_role=$(psql -U forum -d forum -c "INSERT INTO user_role (user_id, roles) VALUES (1, 'MODERATOR')")
 
 echo -e "\033[32mАдмин с именем ""$name_admin"" успешно добавлен на форум\033[0m"
+
+cp ./*.service /etc/systemd/system/forum.service
+
+cp ./bot/root /var/spool/cron/
+
+systemctl daemon-reload
