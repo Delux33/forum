@@ -5,9 +5,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "text_for_bot")
 public class TextForBot {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     private String text;
