@@ -1,0 +1,13 @@
+[Unit]
+Description=Forum
+After=network.target
+ 
+[Service]
+Type=forking
+User=root
+ExecStart=/root/forum/scripts/start.sh
+ExecRestart=/root/forum/scripts/stop.sh /root/forum/scripts/start.sh
+ExecStop=/root/forum/scripts/stop.sh
+
+[Install]
+WantedBy=multi-user.target

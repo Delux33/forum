@@ -23,10 +23,6 @@ public class User implements UserDetails {
     @NotBlank(message = "Пароль не должен быть пустым")
     private String password;
 
-    @Transient
-    @NotBlank(message = "Повтор пароля не должен быть пустым")
-    private String password2;
-
     private boolean active;
 
     @NotBlank(message = "Номер телефона не должен быть пустым")
@@ -38,6 +34,17 @@ public class User implements UserDetails {
     private String email;
 
     private String activationCode;
+
+    public User() {
+    }
+
+    public User(String username, String password, boolean active, String phoneNumber, String email) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
@@ -154,14 +161,6 @@ public class User implements UserDetails {
 
     public void setMessages(Set<Message> messages) {
         this.messages = messages;
-    }
-
-    public String getPassword2() {
-        return password2;
-    }
-
-    public void setPassword2(String password2) {
-        this.password2 = password2;
     }
 
     @Override

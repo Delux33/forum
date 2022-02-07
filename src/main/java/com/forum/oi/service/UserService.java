@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,9 +20,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private MailService mailSenderService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,13 +42,12 @@ public class UserService implements UserDetailsService {
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepo.save(user);
 
         if (StringUtils.hasText(user.getEmail())) {
             String message = String.format(
-                    "%s тыкни на ссылку и активируй акк - http://localhost:8080/activate/%s",
+                    "%s тыкни на ссылку и активируй акк - http://192.168.40.111:8080/activate/%s",
                     user.getUsername(),
                     user.getActivationCode()
             );
@@ -73,20 +68,17 @@ public class UserService implements UserDetailsService {
 
         user.setUsername(username);
 
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add((Role.valueOf(key)));
-            }
-        }
+        addRole(user, form);
 
         userRepo.save(user);
 
+    }
+
+    public void saveUser(User user, Map<String, String> form) {
+
+        addRole(user, form);
+
+        userRepo.save(user);
     }
 
     public void updateProfile(User user, String password, String email) {
@@ -108,4 +100,19 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public void addRole(User user, Map<String, String> form) {
+
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
+
+        user.getRoles().clear();
+
+        for (String key : form.keySet()) {
+            if (roles.contains(key)) {
+                user.getRoles().add((Role.valueOf(key)));
+            }
+        }
+
+    }
 }

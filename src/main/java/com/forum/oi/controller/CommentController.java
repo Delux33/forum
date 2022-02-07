@@ -1,12 +1,15 @@
 package com.forum.oi.controller;
 
 import com.forum.oi.domain.Article;
+import com.forum.oi.domain.Comment;
 import com.forum.oi.domain.Message;
 import com.forum.oi.domain.User;
 import com.forum.oi.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +23,36 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("comment")
-    public String addComment(@RequestParam String comment,
-                             @AuthenticationPrincipal User author,
+    public String addComment(@AuthenticationPrincipal User currentUser,
+                             @RequestParam String comment,
                              @PathVariable Message message,
-                             @PathVariable Article article) {
+                             @PathVariable Article article,
+                             Model model) {
 
-        commentService.createAndSaveComment(comment, author, article);
+        Iterable<Comment> comments = commentService.findCommentsForArticle(article);
 
-        return "redirect:/topics/" + message.getId() + "/" + article.getId();
+        model.addAttribute("comments", comments);
+        model.addAttribute("isOwnerArticle", currentUser.equals(article.getAuthor()));
+        model.addAttribute("id_message", message.getId());
+        model.addAttribute("article", article);
+
+        if (!StringUtils.hasText(comment)) {
+            model.addAttribute("commentError", "Комментарий не может быть пустой");
+
+        } else {
+
+            if (comment.length() > 1000) {
+                model.addAttribute("commentError", "Комментарий больше 1000 символов " +
+                        "- это очень много");
+
+                return "article";
+            }
+
+            commentService.createAndSaveComment(comment, currentUser, article);
+
+            return "redirect:/topics/" + message.getId() + "/" + article.getId();
+        }
+        return "article";
     }
 
     @PostMapping("delete/{comment}")

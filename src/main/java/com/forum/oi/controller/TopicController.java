@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -39,26 +38,37 @@ public class TopicController {
 
     @PostMapping("/topics")
     public String addTopic(@AuthenticationPrincipal User author,
-                           @Valid Message message,
-                           BindingResult bindingResult,
+                           @RequestParam("text") String message,
                            Model model) {
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ErrorsController.getErrors(bindingResult);
-
-            model.mergeAttributes(errorsMap);
-            model.addAttribute("message", message);
-        } else {
-
-            model.addAttribute("message", null);
-
-            messageAndArticleService.createAndSaveMessage(message, author);
-        }
 
         Iterable<Message> messages = messageAndArticleService.findAllMessages();
 
         model.addAttribute("messages", messages);
 
+        if (!StringUtils.hasText(message)) {
+            model.addAttribute("topicError", "Заголовок статьи не может быть пустой");
+
+        } else {
+
+            if (message.length() > 10) {
+                model.addAttribute("topicError", "Заголовок статьи больше 10 символов " +
+                        "- это очень много");
+                model.addAttribute("text", message);
+
+                return "topic";
+            }
+
+            if (messageAndArticleService.findByTopic(message).equals(message)) {
+                model.addAttribute("topicError", "Тема с таким именем уже существует");
+                model.addAttribute("text", message);
+
+                return "topic";
+            }
+
+            messageAndArticleService.createAndSaveMessage(message, author);
+
+            return "redirect:/topics";
+        }
         return "topic";
     }
 
@@ -78,12 +88,48 @@ public class TopicController {
 
     @PostMapping("/topics/edit/{messageId}")
     public String saveChangedMessage(@AuthenticationPrincipal User currentUser,
-                                   @RequestParam Message message,
-                                   @RequestParam String topic) {
+                                   @PathVariable Message messageId,
+                                   @RequestParam String topic,
+                                   Model model) {
 
-        messageAndArticleService.saveChangedMessage(currentUser, topic, message);
+        Iterable<Message> messages = messageAndArticleService.findAllMessages();
 
-        return "redirect:/topics";
+        model.addAttribute("messages", messages);
+        model.addAttribute("message", messageId);
+        model.addAttribute("isCurrentUser", currentUser.equals(messageId.getAuthor()));
+
+        if (!StringUtils.hasText(topic)) {
+            model.addAttribute("topicError", "Заголовок статьи не может быть пустой");
+
+        } else {
+
+            if (topic.length() > 10) {
+                model.addAttribute("topicError", "Заголовок статьи больше 10 символов " +
+                        "- это очень много");
+                model.addAttribute("text", topic);
+
+                return "editTopic";
+            }
+
+            if (messageId.getText().equals(topic)) {
+                model.addAttribute("topicError", "Изменений не найдено");
+                model.addAttribute("text", topic);
+
+                return "editTopic";
+            }
+
+            if (messageAndArticleService.findByTopic(topic).equals(topic)) {
+                model.addAttribute("topicError", "Тема с таким именем уже существует");
+                model.addAttribute("text", topic);
+
+                return "editTopic";
+            }
+
+            messageAndArticleService.saveChangedMessage(currentUser, topic, messageId);
+
+            return "redirect:/topics";
+        }
+        return "editTopic";
     }
 
     @PostMapping("/topics/delete/{messageId}")

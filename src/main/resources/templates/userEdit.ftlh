@@ -6,7 +6,8 @@
             <label class="col-form-label">
                 <h3>User name</h3>
             </label>
-            <input class="form-control col-sm-3 mb-1" type="text" name="username" value="${user.username}" placeholder="Username">
+            <input class="form-control col-sm-3 mb-1" type="text" name="username" value="${user.username}"
+                   placeholder="Username">
         </div>
         <#list roles as role>
             <div class="form-check">

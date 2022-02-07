@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface ArticleRepo extends CrudRepository<Article, Long> {
 
     Iterable<Article> findArticlesByMessage(Message topic);
+
+    Article findArticleByTitle(String title);
 }

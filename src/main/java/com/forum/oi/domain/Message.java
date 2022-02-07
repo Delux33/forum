@@ -1,9 +1,6 @@
 package com.forum.oi.domain;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -12,9 +9,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Тема не должна быть пустой")
-    @Length(max = 115, message = "Слишком длинное название темы (максимум 110 символов)")
     private String text;
+
+    private String time;
 
     @OneToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
@@ -28,9 +25,10 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, User user) {
+    public Message(String text, User user,  String time) {
         this.text = text;
         this.author = user;
+        this.time = time;
     }
 
     public String getAuthorName() {
@@ -59,5 +57,21 @@ public class Message {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Set<Article> getArticle() {
+        return article;
+    }
+
+    public void setArticle(Set<Article> article) {
+        this.article = article;
     }
 }
