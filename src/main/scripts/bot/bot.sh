@@ -41,7 +41,7 @@ do
 done
 
 #если достигли конца книги, то начинаем снова с 1 строчки
-if [ "$string_number" = "$all_strings_from_book" ]; then
+if [ "$string_number" -eq "$all_strings_from_book" ]; then
   echo "1" > number_string.txt
 else
   echo
