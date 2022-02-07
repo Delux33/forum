@@ -8,12 +8,13 @@
                         <div class="row ml-2 align-items-center">
                             <a href="${path}/${message.id}">${message.text}</a>
                             <div class="col" align="right">
+                                <span class="mr-2">${message.time}</span>
                                 <#if (message.author.id == currentUserId) || isAdmin || isModerator>
                                     <form method="post" action="${path}/delete/${message.id}">
-                                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                                         <a href="${path}/edit/${message.id}">
                                             <span class="lnr lnr-pencil mr-2"></span>
                                         </a>
+                                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                                         <button type="submit" class="btn btn-outline-danger btn-sm">X</button>
                                     </form>
                                 </#if>
@@ -22,7 +23,7 @@
                     </div>
                 </div>
             <#else>
-                <div align="center">Темы отсутствуют, нужно что-то добавить</div>
+                <div align="center">Темы отсутствуют, ждем когда их добавят</div>
             </#list>
         </div>
     <#else>
@@ -33,6 +34,7 @@
                         <div class="row ml-2 align-items-center">
                             <a href="${path}/${article.id}">${article.title}</a>
                             <div class="col" align="right">
+                                <span class="mr-2">${article.time}</span>
                                 <#if (article.author.id == currentUserId) || isAdmin || isModerator>
                                     <form method="post" action="${path}/delete/${article.id}">
                                         <a href="${path}/edit/${article.id}">

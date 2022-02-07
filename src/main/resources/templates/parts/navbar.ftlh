@@ -17,7 +17,6 @@
                 </li>
             </#if>
     </div>
-    </ul>
     <#if user?? && (currentUserId != -1)>
         <#if isAdmin>
             <div class="navbar-text">
@@ -28,5 +27,4 @@
         <a class="btn btn-primary-small"><span><@l.logout /></span></a>
     <#else>
     </#if>
-    </div>
 </nav>

@@ -14,42 +14,42 @@
         </#if>
     </#if>
     <#if !isTopic>
-        <div class="collapse <#if titleError??>show</#if>" id="collapseExample">
+        <div class="collapse <#if titleArticleError??>show</#if>" id="collapseExample">
             <div class="form-group mt-3">
                 <form method="post" action="${path}" enctype="multipart/form-data">
                     <div class="form-group">
-                        <input type="text" class="form-control ${(titleError??)?string('is-invalid', '')}"
-                               value="<#if titleError??>${article.title}</#if>" name="title"
+                        <input type="text" class="form-control ${(titleArticleError??)?string('is-invalid', '')}"
+                               value="<#if title??>${title}</#if>" name="title"
                                placeholder="Введите название статьи"/>
-                        <#if titleError??>
+                        <#if titleArticleError??>
                             <div class="invalid-feedback">
-                                ${titleError}
+                                ${titleArticleError}
                             </div>
                         </#if>
                     </div>
-                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                     <div class="form-group">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                         <button type="submit" class="btn btn-primary">Добавить</button>
                     </div>
                 </form>
             </div>
         </div>
     <#else>
-        <div class="collapse <#if textError??>show</#if>" id="collapseExample">
+        <div class="collapse <#if topicError??>show</#if>" id="collapseExample">
             <div class="form-group mt-3">
                 <form method="post" action="${path}" enctype="multipart/form-data">
                     <div class="form-group">
-                        <input type="text" class="form-control ${(textError??)?string('is-invalid', '')}"
-                               value="<#if textError??>${message.text}</#if>" name="text"
+                        <input type="text" class="form-control ${(topicError??)?string('is-invalid', '')}"
+                               value="<#if text??>${text}</#if>" name="text"
                                placeholder="Введите название темы"/>
-                        <#if textError??>
+                        <#if topicError??>
                             <div class="invalid-feedback">
-                                ${textError}
+                                ${topicError}
                             </div>
                         </#if>
                     </div>
-                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                     <div class="form-group">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                         <button type="submit" class="btn btn-primary">Добавить</button>
                     </div>
                 </form>

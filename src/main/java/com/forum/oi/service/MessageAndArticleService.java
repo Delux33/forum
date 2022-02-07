@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+
 @Service
 public class MessageAndArticleService {
     @Autowired
@@ -19,6 +21,22 @@ public class MessageAndArticleService {
 
     public Iterable<Article> findAllArticlesForTopic(Message topic) {
         return articleRepo.findArticlesByMessage(topic);
+    }
+
+    public String findByTopic(String topic) {
+        if (messageRepo.findByText(topic) == null) {
+            return "";
+        } else {
+            return messageRepo.findByText(topic).getText();
+        }
+    }
+
+    public String findByTitleArticle(String title) {
+        if (articleRepo.findArticleByTitle(title) == null) {
+            return "";
+        } else {
+            return articleRepo.findArticleByTitle(title).getTitle();
+        }
     }
 
     public Iterable<Message> findAllMessages() {
@@ -41,17 +59,28 @@ public class MessageAndArticleService {
         return null;
     }
 
-    public void createAndSaveArticle(Article article, User author, Message message) {
+    public void createAndSaveArticle(String title, User author, Message message) {
 
-        article.setMessage(message);
-        article.setAuthor(author);
-        articleRepo.save(article);
+        String time =
+                LocalDateTime.now().getYear() + ":" +
+                LocalDateTime.now().getMonthValue() + ":" +
+                LocalDateTime.now().getDayOfMonth();
+
+        Article newArticleTitle = new Article(title, author, message, time);
+
+        articleRepo.save(newArticleTitle);
     }
 
-    public void createAndSaveMessage(Message message, User author) {
+    public void createAndSaveMessage(String message, User author) {
 
-        message.setAuthor(author);
-        messageRepo.save(message);
+        String time =
+                LocalDateTime.now().getYear() + ":" +
+                LocalDateTime.now().getMonthValue() + ":" +
+                LocalDateTime.now().getDayOfMonth();
+
+        Message newMessage = new Message(message, author, time);
+
+        messageRepo.save(newMessage);
     }
 
     public void saveTextArticle(String textArticle, Article article) {

@@ -35,6 +35,17 @@ public class User implements UserDetails {
 
     private String activationCode;
 
+    public User() {
+    }
+
+    public User(String username, String password, boolean active, String phoneNumber, String email) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }

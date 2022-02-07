@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -45,9 +46,16 @@ public class UserController {
             userService.saveUser(user, form);
 
             return "redirect:/user/" + user.getId();
-        } else {
-            userService.saveUser(user, username, form);
 
+        } else {
+
+            if (!StringUtils.hasText(username)) {
+                return "redirect:/user/";
+
+            } else {
+
+                userService.saveUser(user, username, form);
+            }
             return "redirect:/user/";
         }
     }
