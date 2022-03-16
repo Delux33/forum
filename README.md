@@ -22,7 +22,7 @@ ____
 
 ![image](https://user-images.githubusercontent.com/92450565/158566051-c31e1f5a-cb0e-4682-8b30-33747680b8a7.png)
 
-Далее заходим на форму и авторизуемся как admin и пишем первую тему
+Далее заходим на форум и авторизуемся как admin и пишем первую тему
 
 ![image](https://user-images.githubusercontent.com/92450565/158567187-230c637f-4804-48cb-b543-fae60ddbb57a.png)
 
