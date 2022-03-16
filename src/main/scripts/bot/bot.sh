@@ -8,10 +8,10 @@ string_number=$current_number_string
 text_for_bot_is_empty=$(psql -t -U forum -d forum -c "SELECT count(*) FROM text_for_bot")
 counter=0
 
-#диапазон указан - с какой строчки и всего строчек 
+#the range is specified - from which line and total lines
 for i in $(seq "$current_number_string" "$all_strings_from_book");
 do
-#выводим строку с которой продолжаем алгоритм
+#line with which we continue the algorithm
   text_line=$(sed -n "$i"'p' /root/forum/bot/text.txt)
 
   string_number=$((string_number + 1))
@@ -20,7 +20,7 @@ do
     
     counter=$((counter + 1))
     
-    echo "${BASH_REMATCH[1]}"
+    echo ${BASH_REMATCH[1]}
     
     if [ "$text_for_bot_is_empty" -eq 0 ]; then
       echo "create" 
@@ -32,7 +32,7 @@ do
     
     if [ "$counter" -eq 10 ]; then
     
-#добавляем в файл число строки с которой в след раз начнем
+#add to the file the number of the line with which we will start next time 
       echo "$string_number" > /root/forum/bot/number_string.txt
       
       break
@@ -40,8 +40,8 @@ do
   fi
 done
 
-#если достигли конца книги, то начинаем снова с 1 строчки
-if [ "$string_number" -eq "$all_strings_from_book" ]; then
+#if you reach the end of the book, then start again from line 1
+if [ "$string_number" = "$all_strings_from_book" ]; then
   echo "1" > number_string.txt
 else
   echo
